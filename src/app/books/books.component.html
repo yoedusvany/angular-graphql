@@ -1,0 +1,15 @@
+<div *ngIf="loading">
+  Loading...
+</div>
+<div *ngIf="error">
+  Error :(
+</div>
+
+<accordion>
+  <accordion-group [heading]="item.node.title" *ngFor="let item of books">
+    <div class="row">
+      <div class="col-6">ISBN: {{item.node.isbn}}</div>
+      <div class="col-6">DESC: {{item.node.description}}</div>
+    </div>
+  </accordion-group>
+</accordion>
