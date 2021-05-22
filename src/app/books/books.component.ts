@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Apollo, gql } from 'apollo-angular';
-import { map } from 'rxjs/operators'
 import { BookService } from '../services/book-service'
 
 @Component({
@@ -16,7 +14,6 @@ export class BooksComponent implements OnInit {
   filterDesc: string;
 
   constructor(
-    private apollo: Apollo,
     private bookService: BookService
   ) {}
 
