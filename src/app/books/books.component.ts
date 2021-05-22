@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { map } from 'rxjs/operators'
+import { BookService } from '../services/book-service'
 
 @Component({
   selector: 'app-books',
@@ -11,34 +12,34 @@ export class BooksComponent implements OnInit {
   books: any;
   loading: boolean = true;
   error: any;
-  constructor(private apollo: Apollo) {}
+  filterTitle: string;
+  filterDesc: string;
+
+  constructor(
+    private apollo: Apollo,
+    private bookService: BookService
+  ) {}
 
   ngOnInit() {
-    this.apollo
-      .watchQuery({
-        query: gql`
-          {
-            books{
-              edges{
-                node{
-                  isbn
-                  title
-                  description
-                  id
-                }
-              }
-            }
-          }
-        `,
-      })
-      .valueChanges
-      .pipe(
-        map(item => item?.data)
-      )
-      .subscribe((result: any) => {
-        this.books = result?.books?.edges;
-        this.loading = result.loading;
-        this.error = result.error;
-      });
+    this.loadBooks();
+  }
+
+  filterDescEvent(e){
+    this.filterDesc = e.target.value;
+    this.loadBooks();
+  }
+
+  filterTitleEvent(e){
+    this.filterTitle = e.target.value;
+    this.loadBooks();
+  }
+
+  loadBooks(){
+    this.bookService.getBooks(this.filterTitle, this.filterDesc)
+    .subscribe((result: any) => {
+      this.books = result?.books?.edges;
+      this.loading = result.loading;
+      this.error = result.error;
+    });
   }
 }

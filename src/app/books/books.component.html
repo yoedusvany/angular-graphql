@@ -4,7 +4,16 @@
 <div *ngIf="error">
   Error :(
 </div>
-
+<div class="row pb-4">
+  <div class="col-6">
+    <label>Title:</label>
+    <input type="text" name="filterTitle" [(ngModel)]="filterTitle" (keyup)="filterTitleEvent($event)"/>
+  </div>
+  <div class="col-6">
+    <label>Desc:</label>
+    <input type="text" name="filterDesc" [(ngModel)]="filterDesc" (keyup)="filterDescEvent($event)"/>
+  </div>
+</div>
 <accordion>
   <accordion-group [heading]="item.node.title" *ngFor="let item of books">
     <div class="row">

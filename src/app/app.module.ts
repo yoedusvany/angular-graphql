@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms'; 
 
 // COMPONENTS
 import { HeaderComponent } from './header/header.component'
@@ -32,6 +33,7 @@ import { HomeComponent } from './home/home.component'
     HttpClientModule,
     BrowserAnimationsModule,
     AccordionModule.forRoot(),
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
