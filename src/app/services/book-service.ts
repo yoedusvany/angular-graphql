@@ -33,6 +33,7 @@ export class BookService {
             title: title,
             description: description,
           },
+          pollInterval: 2000,
         }
       )
       .valueChanges
