@@ -1,24 +1,35 @@
-<div *ngIf="loading">
-  Loading...
-</div>
-<div *ngIf="error">
-  Error :(
-</div>
-<div class="row pb-4">
-  <div class="col-6">
-    <label>Title:</label>
-    <input type="text" name="filterTitle" [(ngModel)]="filterTitle" (keyup)="filterTitleEvent($event)"/>
+<div class="container">
+  <div *ngIf="loading">
+    Loading...
   </div>
-  <div class="col-6">
-    <label>Desc:</label>
-    <input type="text" name="filterDesc" [(ngModel)]="filterDesc" (keyup)="filterDescEvent($event)"/>
+  <div *ngIf="error">
+    Error :(
   </div>
-</div>
-<accordion>
-  <accordion-group [heading]="item.node.title" *ngFor="let item of books">
-    <div class="row">
-      <div class="col-6">ISBN: {{item.node.isbn}}</div>
-      <div class="col-6">DESC: {{item.node.description}}</div>
+  <div class="row pb-4">
+    <div class="col-6">
+      <label>Title:</label>
+      <input type="text" name="filterTitle" [(ngModel)]="filterTitle" (keyup)="filterTitleEvent($event)"/>
     </div>
-  </accordion-group>
-</accordion>
+    <div class="col-6">
+      <label>Desc:</label>
+      <input type="text" name="filterDesc" [(ngModel)]="filterDesc" (keyup)="filterDescEvent($event)"/>
+    </div>
+  </div>
+
+  <div class="row">
+    <accordion>
+      <accordion-group [heading]="item.node.title" *ngFor="let item of books">
+        <div class="row">
+          <div class="col-6">ISBN: {{item.node.isbn}}</div>
+          <div class="col-6">DESC: {{item.node.description}}</div>
+        </div>
+      </accordion-group>
+    </accordion>
+  </div>
+
+  <div class="d-flex justify-content-cente">
+    <button type="button" class="btn btn-primary" (click)="openModalWithComponent()">Create Book</button>
+  </div>
+</div>
+
+

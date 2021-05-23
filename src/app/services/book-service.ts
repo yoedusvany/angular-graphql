@@ -18,6 +18,19 @@ const GET_BOOKS = gql`
   }
 `;
 
+const CREATE = gql`
+  mutation createBook($book: createBookInput! ){
+      createBook(input: $book){
+        book{
+          isbn,
+          id
+          title
+          description
+        }
+      }
+  }
+`;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -40,5 +53,16 @@ export class BookService {
       .pipe(
         map(item => item?.data)
       );
+  }
+
+  create(data: any){
+    return this.apollo.mutate(
+      {
+        mutation: CREATE,
+        variables: {
+          book: data,
+        }
+      }
+    );
   }
 }

@@ -4,19 +4,22 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // RECOMMENDED
 import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 // NOT RECOMMENDED (Angular 9 doesn't support this kind of import)
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 // COMPONENTS
 import { HeaderComponent } from './header/header.component'
 import { BooksComponent } from './books/books.component'
 import { AuthorsComponent } from './authors/authors.component'
 import { HomeComponent } from './home/home.component'
+import { BookCreateComponent } from './components/book-create/book-create.component'
 
 @NgModule({
   declarations: [
@@ -24,7 +27,8 @@ import { HomeComponent } from './home/home.component'
     HeaderComponent,
     BooksComponent,
     AuthorsComponent,
-    HomeComponent
+    HomeComponent,
+    BookCreateComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +37,10 @@ import { HomeComponent } from './home/home.component'
     HttpClientModule,
     BrowserAnimationsModule,
     AccordionModule.forRoot(),
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    ModalModule.forRoot(),
+    BsDropdownModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

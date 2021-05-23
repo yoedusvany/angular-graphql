@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { BookCreateComponent } from '../components/book-create/book-create.component';
 import { BookService } from '../services/book-service'
 
 @Component({
@@ -12,9 +14,11 @@ export class BooksComponent implements OnInit {
   error: any;
   filterTitle: string;
   filterDesc: string;
+  bsModalRef: BsModalRef;
 
   constructor(
-    private bookService: BookService
+    private bookService: BookService,
+    private modalService: BsModalService
   ) {}
 
   ngOnInit() {
@@ -38,5 +42,14 @@ export class BooksComponent implements OnInit {
       this.loading = result.loading;
       this.error = result.error;
     });
+  }
+
+
+  openModalWithComponent(){
+    const initialState = {
+      title: 'Create Book'
+    };
+    this.bsModalRef = this.modalService.show(BookCreateComponent, {initialState});
+    this.bsModalRef.content.closeBtnName = 'Close';
   }
 }
