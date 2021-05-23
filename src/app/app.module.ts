@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // RECOMMENDED
 import { AccordionModule } from 'ngx-bootstrap/accordion';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 // NOT RECOMMENDED (Angular 9 doesn't support this kind of import)
 
 import { AppRoutingModule } from './app-routing.module';
@@ -41,6 +42,7 @@ import { BookCreateComponent } from './components/book-create/book-create.compon
     ReactiveFormsModule,
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
+    PaginationModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

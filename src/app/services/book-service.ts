@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { map } from 'rxjs/operators';
-import {Observable} from 'rxjs';
 
 const GET_BOOKS = gql`
-  query GetBooks($title: String, $description: String){
-    books(title: $title, description: $description){
-      edges{
-        node{
-          id
-          isbn
-          title
-          description
-        }
+  query GetBooks($title: String, $description: String, $page: Int){
+    books( page: $page, title: $title, description: $description){
+      collection {
+        id
+        title
+        isbn
+        description
+      }
+      paginationInfo {
+        itemsPerPage
+        lastPage
+        totalCount
       }
     }
   }
@@ -38,13 +40,14 @@ export class BookService {
 
   constructor(private apollo: Apollo ) { }
 
-  getBooks(title: string, description: string){
+  getBooks(title: string, description: string, page: number){
     return this.apollo.watchQuery(
         {
           query: GET_BOOKS,
           variables: {
             title: title,
             description: description,
+            page: page
           },
           pollInterval: 2000,
         }

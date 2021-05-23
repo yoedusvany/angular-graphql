@@ -18,13 +18,16 @@
 
   <div class="row">
     <accordion>
-      <accordion-group [heading]="item.node.title" *ngFor="let item of books">
+      <accordion-group [heading]="item.title" *ngFor="let item of books">
         <div class="row">
-          <div class="col-6">ISBN: {{item.node.isbn}}</div>
-          <div class="col-6">DESC: {{item.node.description}}</div>
+          <div class="col-6">ISBN: {{item.isbn}}</div>
+          <div class="col-6">DESC: {{item.description}}</div>
         </div>
       </accordion-group>
     </accordion>
+  </div>
+  <div class="row">
+    <pagination [itemsPerPage]="5" [totalItems]="totalCount" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
   </div>
 
   <div class="d-flex justify-content-cente">

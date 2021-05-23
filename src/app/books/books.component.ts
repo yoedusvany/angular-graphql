@@ -15,6 +15,10 @@ export class BooksComponent implements OnInit {
   filterTitle: string;
   filterDesc: string;
   bsModalRef: BsModalRef;
+  totalCount: number = 0;
+  currentPage: 1;
+  previousPage: any;
+  nextPage: any;
 
   constructor(
     private bookService: BookService,
@@ -36,9 +40,13 @@ export class BooksComponent implements OnInit {
   }
 
   loadBooks(){
-    this.bookService.getBooks(this.filterTitle, this.filterDesc)
+    this.bookService.getBooks(this.filterTitle, this.filterDesc, this.currentPage)
     .subscribe((result: any) => {
-      this.books = result?.books?.edges;
+      console.log(result);
+      
+      this.totalCount = result.books.paginationInfo.totalCount;
+
+      this.books = result?.books?.collection;
       this.loading = result.loading;
       this.error = result.error;
     });
@@ -51,5 +59,10 @@ export class BooksComponent implements OnInit {
     };
     this.bsModalRef = this.modalService.show(BookCreateComponent, {initialState});
     this.bsModalRef.content.closeBtnName = 'Close';
+  }
+
+  pageChanged(event){
+    this.currentPage = event.page;
+    this.loadBooks();
   }
 }
