@@ -14,6 +14,7 @@ import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { FileUploadModule } from '@iplab/ngx-file-upload';
 
 // COMPONENTS
 import { HeaderComponent } from './header/header.component'
@@ -21,6 +22,7 @@ import { BooksComponent } from './books/books.component'
 import { AuthorsComponent } from './authors/authors.component'
 import { HomeComponent } from './home/home.component'
 import { BookCreateComponent } from './components/book-create/book-create.component'
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { BookCreateComponent } from './components/book-create/book-create.compon
     BooksComponent,
     AuthorsComponent,
     HomeComponent,
-    BookCreateComponent
+    BookCreateComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,8 @@ import { BookCreateComponent } from './components/book-create/book-create.compon
     ReactiveFormsModule,
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
-    PaginationModule.forRoot()
+    PaginationModule.forRoot(),
+    FileUploadModule
   ],
   providers: [],
   bootstrap: [AppComponent]

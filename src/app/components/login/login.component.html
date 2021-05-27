@@ -1,0 +1,31 @@
+<div class="container mb-4">
+    <div class="d-flex justify-content-center">
+        <div class="col-6">
+            <accordion>
+                <accordion-group heading="Login" isOpen="true" isDisabled="true">
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" [(ngModel)]="username">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" [(ngModel)]="password">
+                        </div>
+                    </div>
+                </accordion-group>
+            </accordion>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center">
+            <button type="button" class="btn btn-primary" (click)="login()">
+                Login
+            </button>
+        </div>
+    </div>
+
+
+</div>

@@ -18,7 +18,7 @@
 
   <div class="row">
     <accordion>
-      <accordion-group [heading]="item.title" *ngFor="let item of books">
+      <accordion-group [heading]="item.title" *ngFor="let item of (books$ | async).collection">
         <div class="row">
           <div class="col-6">ISBN: {{item.isbn}}</div>
           <div class="col-6">DESC: {{item.description}}</div>

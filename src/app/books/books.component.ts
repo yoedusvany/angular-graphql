@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Apollo } from 'apollo-angular';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { BookCreateComponent } from '../components/book-create/book-create.component';
-import { BookService } from '../services/book-service'
+import { BookService } from '../services/book.service'
+import { GET_BOOKS } from '../graphql/queries'
+import { BehaviorSubject } from 'rxjs';
+
 
 @Component({
   selector: 'app-books',
@@ -9,7 +13,7 @@ import { BookService } from '../services/book-service'
   styleUrls: ['./books.component.scss'],
 })
 export class BooksComponent implements OnInit {
-  books: any;
+  books$: BehaviorSubject<any>;
   loading: boolean = true;
   error: any;
   filterTitle: string;
@@ -22,8 +26,10 @@ export class BooksComponent implements OnInit {
 
   constructor(
     private bookService: BookService,
-    private modalService: BsModalService
-  ) {}
+    private modalService: BsModalService,
+  ) {
+    this.books$ = new BehaviorSubject({});
+  }
 
   ngOnInit() {
     this.loadBooks();
@@ -40,13 +46,16 @@ export class BooksComponent implements OnInit {
   }
 
   loadBooks(){
-    this.bookService.getBooks(this.filterTitle, this.filterDesc, this.currentPage)
-    .subscribe((result: any) => {
-      console.log(result);
+    console.log(this.currentPage);
+    
+    this.bookService.getBooks(this.filterTitle, this.filterDesc, this.currentPage);
+    this.books$ = this.bookService.books$;
+    this.books$.subscribe(result => {
+      if(result && result?.collection?.length > 0){
+        const {paginationInfo} = result;
+        this.totalCount = paginationInfo.totalCount;
+      }
       
-      this.totalCount = result.books.paginationInfo.totalCount;
-
-      this.books = result?.books?.collection;
       this.loading = result.loading;
       this.error = result.error;
     });

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { BookService } from 'src/app/services/book-service';
+import { BookService } from 'src/app/services/book.service';
 import { AuthorsService } from 'src/app/services/authors.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-book-create',
@@ -13,7 +14,7 @@ export class BookCreateComponent implements OnInit {
   title: string;
   closeBtnName: string;
   formBook: FormGroup;
-  authors: any[] = [];
+  authors$: BehaviorSubject<any>;
  
   constructor(
     public bsModalRef: BsModalRef,
@@ -30,20 +31,13 @@ export class BookCreateComponent implements OnInit {
       description: [null, [Validators.required]],
       author: [null, [Validators.required]]
     });
-    this.authorService.getAuthors().subscribe((data:any) => {
-      this.authors = data.authors.edges;
-    });
+    this.authors$.next(this.authorService.authors$);
   }
 
   submit(){
     const input = this.formBook.value;
-    this.bookService.create(input)
-      .subscribe(({ data }) => {
-        console.log('got data', data);
-        this.bsModalRef.hide();
-      }, (error) => {
-        console.log('there was an error sending the query', error);
-      });
+    this.bookService.create(input);
+    this.bsModalRef.hide();
   }
 
 }

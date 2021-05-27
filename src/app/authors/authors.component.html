@@ -1,0 +1,41 @@
+<div class="container">
+    <h1>Autores</h1>
+    <accordion>
+        <accordion-group [heading]="author.node.name" *ngFor="let author of (authors$ | async)">
+            <div class="row" *ngFor="let author of (authors$ | async)">
+                Nombre del autor: {{author.node.name}}
+            </div>
+        </accordion-group>
+    </accordion>
+
+
+    <button type="button" class="btn btn-primary" (click)="openModal(template)">Create Author</button>
+
+    <ng-template #template>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Modal</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="formAuthor">
+
+                <div class="row">
+                    <div class="col-6">
+                        <label>Name</label>
+                        <input type="text" formControlName="name">
+                    </div>
+                    <div class="col-6">
+                        <label>Image</label>
+                        <file-upload formControlName="image" multiple="false" animation="false"></file-upload>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click)="create()">Create</button>
+            <button type="button" class="btn btn-default" (click)="modalRef.hide()">Close</button>
+        </div>
+    </ng-template>
+</div>
