@@ -1,0 +1,378 @@
+type Author implements Node {
+  id: ID!
+  _id: Int!
+  name: String!
+  books(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+    title: String
+    description: String
+  ): BookConnection
+}
+
+"""Connection for Author."""
+type AuthorConnection {
+  edges: [AuthorEdge]
+  pageInfo: AuthorPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of Author."""
+type AuthorEdge {
+  node: Author
+  cursor: String!
+}
+
+"""Information about the current page."""
+type AuthorPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+type Book implements Node {
+  id: ID!
+  _id: Int!
+  isbn: String!
+  title: String!
+  description: String
+  author: Author!
+}
+
+"""Connection for Book."""
+type BookConnection {
+  collection: [Book]
+  paginationInfo: BookPaginationInfo!
+}
+
+"""Information about the pagination."""
+type BookPaginationInfo {
+  itemsPerPage: Int!
+  lastPage: Int!
+  totalCount: Int!
+}
+
+"""
+The `Iterable` scalar type represents an array or a Traversable with any kind of data.
+"""
+scalar Iterable
+
+type MediaObject implements Node {
+  id: ID!
+  contentUrl: String
+}
+
+type Mutation {
+  """Creates a Reviews."""
+  createReviews(input: createReviewsInput!): createReviewsPayload
+
+  """Updates a Reviews."""
+  updateReviews(input: updateReviewsInput!): updateReviewsPayload
+
+  """Deletes a Reviews."""
+  deleteReviews(input: deleteReviewsInput!): deleteReviewsPayload
+
+  """Uploads a MediaObject."""
+  uploadMediaObject(input: uploadMediaObjectInput!): uploadMediaObjectPayload
+
+  """Creates a Book."""
+  createBook(input: createBookInput!): createBookPayload
+
+  """Updates a Book."""
+  updateBook(input: updateBookInput!): updateBookPayload
+
+  """Deletes a Book."""
+  deleteBook(input: deleteBookInput!): deleteBookPayload
+
+  """Creates a Author."""
+  createAuthor(input: createAuthorInput!): createAuthorPayload
+
+  """Updates a Author."""
+  updateAuthor(input: updateAuthorInput!): updateAuthorPayload
+
+  """Deletes a Author."""
+  deleteAuthor(input: deleteAuthorInput!): deleteAuthorPayload
+
+  """Creates a User."""
+  createUser(input: createUserInput!): createUserPayload
+
+  """Updates a User."""
+  updateUser(input: updateUserInput!): updateUserPayload
+
+  """Deletes a User."""
+  deleteUser(input: deleteUserInput!): deleteUserPayload
+}
+
+"""A node, according to the Relay specification."""
+interface Node {
+  """The id of this node."""
+  id: ID!
+}
+
+type Query {
+  node(id: ID!): Node
+  reviews(id: ID!): Reviews
+  books(
+    """Returns the current page."""
+    page: Int
+    title: String
+    description: String
+  ): BookConnection
+  notRetrievedQueryBook: Book
+  retrievedQueryWithoutParamsBook(id: ID!): Book
+  retrievedQueryBook(isbn: String): Book
+  book(id: ID!): Book
+  author(id: ID!): Author
+  authors(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+    name: String
+  ): AuthorConnection
+  user(id: ID!): User
+  users(
+    """Returns the first n elements from the list."""
+    first: Int
+
+    """Returns the last n elements from the list."""
+    last: Int
+
+    """
+    Returns the elements in the list that come before the specified cursor.
+    """
+    before: String
+
+    """
+    Returns the elements in the list that come after the specified cursor.
+    """
+    after: String
+  ): UserConnection
+}
+
+type Reviews implements Node {
+  id: ID!
+  _id: Int!
+  rating: Int!
+  body: String!
+}
+
+"""
+The `Upload` type represents a file to be uploaded in the same HTTP request as
+"""
+scalar Upload
+
+type User implements Node {
+  id: ID!
+  _id: Int!
+  name: String!
+  username: String!
+  password: String!
+  email: String!
+  roles: Iterable!
+  enabled: Boolean!
+
+  """Returns the salt that was originally used to encode the password."""
+  salt: String
+}
+
+"""Connection for User."""
+type UserConnection {
+  edges: [UserEdge]
+  pageInfo: UserPageInfo!
+  totalCount: Int!
+}
+
+"""Edge of User."""
+type UserEdge {
+  node: User
+  cursor: String!
+}
+
+"""Information about the current page."""
+type UserPageInfo {
+  endCursor: String
+  startCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+input createAuthorInput {
+  name: String!
+  books: [String]
+  clientMutationId: String
+}
+
+type createAuthorPayload {
+  author: Author
+  clientMutationId: String
+}
+
+input createBookInput {
+  isbn: String!
+  title: String!
+  description: String
+  author: String!
+  clientMutationId: String
+}
+
+type createBookPayload {
+  book: Book
+  clientMutationId: String
+}
+
+input createReviewsInput {
+  rating: Int!
+  body: String!
+  clientMutationId: String
+}
+
+type createReviewsPayload {
+  reviews: Reviews
+  clientMutationId: String
+}
+
+input createUserInput {
+  name: String!
+  username: String!
+  password: String!
+  email: String!
+  roles: Iterable!
+  enabled: Boolean!
+  clientMutationId: String
+}
+
+type createUserPayload {
+  user: User
+  clientMutationId: String
+}
+
+input deleteAuthorInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteAuthorPayload {
+  author: Author
+  clientMutationId: String
+}
+
+input deleteBookInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteBookPayload {
+  book: Book
+  clientMutationId: String
+}
+
+input deleteReviewsInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteReviewsPayload {
+  reviews: Reviews
+  clientMutationId: String
+}
+
+input deleteUserInput {
+  id: ID!
+  clientMutationId: String
+}
+
+type deleteUserPayload {
+  user: User
+  clientMutationId: String
+}
+
+input updateAuthorInput {
+  id: ID!
+  name: String
+  books: [String]
+  clientMutationId: String
+}
+
+type updateAuthorPayload {
+  author: Author
+  clientMutationId: String
+}
+
+input updateBookInput {
+  id: ID!
+  isbn: String
+  title: String
+  description: String
+  author: String
+  clientMutationId: String
+}
+
+type updateBookPayload {
+  book: Book
+  clientMutationId: String
+}
+
+input updateReviewsInput {
+  id: ID!
+  rating: Int
+  body: String
+  clientMutationId: String
+}
+
+type updateReviewsPayload {
+  reviews: Reviews
+  clientMutationId: String
+}
+
+input updateUserInput {
+  id: ID!
+  name: String
+  username: String
+  password: String
+  email: String
+  roles: Iterable
+  enabled: Boolean
+  clientMutationId: String
+}
+
+type updateUserPayload {
+  user: User
+  clientMutationId: String
+}
+
+input uploadMediaObjectInput {
+  """The file to upload"""
+  file: Upload!
+  clientMutationId: String
+}
+
+type uploadMediaObjectPayload {
+  mediaObject: MediaObject
+  clientMutationId: String
+}
