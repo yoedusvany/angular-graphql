@@ -1,38 +1,63 @@
 <div class="container">
-  <div *ngIf="loading">
-    Loading...
-  </div>
-  <div *ngIf="error">
-    Error :(
-  </div>
-  <div class="row pb-4">
-    <div class="col-6">
-      <label>Title:</label>
-      <input type="text" name="filterTitle" [(ngModel)]="filterTitle" (keyup)="filterTitleEvent($event)"/>
-    </div>
-    <div class="col-6">
-      <label>Desc:</label>
-      <input type="text" name="filterDesc" [(ngModel)]="filterDesc" (keyup)="filterDescEvent($event)"/>
+  <div class="row">
+    <div class="col">
+      <div *ngIf="loading">
+        Loading...
+      </div>
+      <div *ngIf="error">
+        Error :(
+      </div>
     </div>
   </div>
-
   <div class="row">
-    <accordion>
-      <accordion-group [heading]="item.title" *ngFor="let item of (books$ | async).collection">
-        <div class="row">
-          <div class="col-6">ISBN: {{item.isbn}}</div>
-          <div class="col-6">DESC: {{item.description}}</div>
-        </div>
-      </accordion-group>
-    </accordion>
+    <div class="col">
+      <mat-form-field appearance="standard"  name="filterTitle" [(ngModel)]="filterTitle" (keyup)="filterTitleEvent($event)">
+        <mat-label>Title</mat-label>
+        <input matInput placeholder="Insert title">
+        <mat-hint>Something like "Jaws 4"</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="col">
+      <mat-form-field appearance="standard"  name="filterDesc" [(ngModel)]="filterDesc" (keyup)="filterDescEvent($event)">
+        <mat-label>Description</mat-label>
+        <input matInput placeholder="Insert description">
+        <mat-hint>Something like "this is the biggest shark"</mat-hint>
+      </mat-form-field>
+    </div>
   </div>
-  <div class="row">
-    <pagination [itemsPerPage]="5" [totalItems]="totalCount" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <mat-expansion-panel *ngFor="let  item of (books$ | async).collection"
+                           (opened)="panelOpenState = true"
+                           (closed)="panelOpenState = false">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{item.title}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-grid-list cols="2" rowHeight="130px">
+          <mat-grid-tile>
+            ISBN: {{item.isbn}}
+          </mat-grid-tile>
+          <mat-grid-tile>
+            DESC: {{item.description}}
+          </mat-grid-tile>
+        </mat-grid-list>
+      </mat-expansion-panel>
+    </div>
+    <div class="col">
+      <mat-paginator [length]="totalCount"
+                     [pageSize]="5"
+                     [pageSizeOptions]="[5, 10, 25, 100]">
+      </mat-paginator>
+    </div>
   </div>
+ <div class="row mt-2">
+   <div class="col">
+     <button mat-raised-button color="primary" (click)="openModalWithComponent()">Create book</button>
+   </div>
 
-  <div class="d-flex justify-content-cente">
-    <button type="button" class="btn btn-primary" (click)="openModalWithComponent()">Create Book</button>
-  </div>
+ </div>
 </div>
 
 

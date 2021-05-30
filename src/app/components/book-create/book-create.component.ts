@@ -15,7 +15,7 @@ export class BookCreateComponent implements OnInit {
   closeBtnName: string;
   formBook: FormGroup;
   authors$: BehaviorSubject<any>;
- 
+
   constructor(
     public bsModalRef: BsModalRef,
     private fb: FormBuilder,
@@ -23,7 +23,7 @@ export class BookCreateComponent implements OnInit {
     private authorService: AuthorsService
 
   ) {}
- 
+
   ngOnInit() {
     this.formBook = this.fb.group({
       title: [null, [Validators.required]],
