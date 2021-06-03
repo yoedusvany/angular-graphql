@@ -7,11 +7,13 @@ import { map } from 'rxjs/operators';
 const GET_AUTHORS = gql`
   query GetAuthors($name: String){
     authors(name: $name){
-      edges{
-        node{
+      collection{
           id
           name
-        }
+          image{
+            id
+            contentUrl
+          }
       }
     }
   }
@@ -25,7 +27,10 @@ const CREATE = gql`
       author {
         id
         name,
-        image
+        image{
+          id
+          contentUrl
+        }
       }
       clientMutationId
     }
@@ -37,48 +42,57 @@ const CREATE = gql`
   providedIn: 'root'
 })
 export class AuthorsService {
-  public authors$: BehaviorSubject<any>;
+  authors$: BehaviorSubject<any>;
 
   constructor(
     private apollo: Apollo
   ) { 
     this.authors$ = new BehaviorSubject([]);
-    this.getAuthors();
   }
 
   getAuthors(name: string = ""){
-    this.apollo.watchQuery(
+    const authors = this.apollo.client.readQuery({
+      query: GET_AUTHORS,
+      variables: {
+        name,
+      },
+    });
+
+    if(authors){
+      this.authors$.next(authors)
+      return this.authors$.asObservable();
+    }else{
+      return this.apollo.watchQuery(
         {
           query: GET_AUTHORS,
           variables: {
             name,
           },
-          //pollInterval: 2000,
+          pollInterval:5000
         }
       )
       .valueChanges
       .pipe(
-        map(item => item?.data)
-      ).subscribe((result: any) => {
-        this.authors$.next(result.authors.edges);
-      })
+        map((item: any) => item?.data)
+      )
+    }
   }
 
   create(name: string, image: string){
-    this.apollo.mutate(
+    return this.apollo.mutate(
       {
         mutation: CREATE,
         variables: {
           input: {
             name: name,
-            imageId: image
+            image: image
           },
         }
       }
-    ).subscribe(result => {
-      this.authors$.subscribe(booksData => {
-        this.authors$.next([booksData, result]);
+    )/*.subscribe(result => {
+      this.authors$.subscribe(authorsData => {
+        this.authors$.next([authorsData, result]);
       });
-    })
+    })*/
   }
 }

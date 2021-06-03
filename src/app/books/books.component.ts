@@ -28,7 +28,7 @@ export class BooksComponent implements OnInit {
     private bookService: BookService,
     private modalService: BsModalService,
   ) {
-    this.books$ = new BehaviorSubject({});
+    this.books$ = new BehaviorSubject([]);
   }
 
   ngOnInit() {
@@ -46,11 +46,10 @@ export class BooksComponent implements OnInit {
   }
 
   loadBooks(){
-    console.log(this.currentPage);
-    
-    this.bookService.getBooks(this.filterTitle, this.filterDesc, this.currentPage);
-    this.books$ = this.bookService.books$;
-    this.books$.subscribe(result => {
+    this.bookService.getBooks(this.filterTitle, this.filterDesc, this.currentPage)
+    .subscribe((result: any) => {
+      this.books$.next(result.collection);
+
       if(result && result?.collection?.length > 0){
         const {paginationInfo} = result;
         this.totalCount = paginationInfo.totalCount;

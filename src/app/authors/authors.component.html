@@ -1,9 +1,12 @@
 <div class="container">
     <h1>Autores</h1>
     <accordion>
-        <accordion-group [heading]="author.node.name" *ngFor="let author of (authors$ | async)">
-            <div class="row" *ngFor="let author of (authors$ | async)">
-                Nombre del autor: {{author.node.name}}
+        <accordion-group [heading]="item.name" *ngFor="let item of (authors$ | async)">
+            <div class="row">
+              <div class="col-6">Nombre del autor:: {{item.name}}</div>
+              <div class="col-6">
+                  <img [src]="getImageUrl(item)" heigth="200px" width="200px">
+              </div>
             </div>
         </accordion-group>
     </accordion>

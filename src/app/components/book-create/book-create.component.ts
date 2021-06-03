@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { BookService } from 'src/app/services/book.service';
@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs';
   templateUrl: './book-create.component.html',
   styleUrls: ['./book-create.component.scss']
 })
-export class BookCreateComponent implements OnInit {
+export class BookCreateComponent implements OnInit, OnDestroy {
   title: string;
   closeBtnName: string;
   formBook: FormGroup;
@@ -21,8 +21,8 @@ export class BookCreateComponent implements OnInit {
     private fb: FormBuilder,
     private bookService: BookService,
     private authorService: AuthorsService
-
-  ) {}
+  ) {
+  }
  
   ngOnInit() {
     this.formBook = this.fb.group({
@@ -31,13 +31,25 @@ export class BookCreateComponent implements OnInit {
       description: [null, [Validators.required]],
       author: [null, [Validators.required]]
     });
-    this.authors$.next(this.authorService.authors$);
+    this.authors$ = new BehaviorSubject([]);
+    this.loadAuthors();
+  }
+
+  ngOnDestroy(){
+    this.authors$.unsubscribe();
+  }
+
+  loadAuthors(){
+    this.authorService.getAuthors().subscribe(data => {
+      this.authors$.next(data.authors.collection);
+    });
   }
 
   submit(){
     const input = this.formBook.value;
-    this.bookService.create(input);
-    this.bsModalRef.hide();
+    this.bookService.create(input).subscribe(data => {
+      this.bsModalRef.hide();
+    });
   }
 
 }

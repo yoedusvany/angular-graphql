@@ -25,7 +25,7 @@
             <div class="col-6">
                 <label>AUTOR</label>
                 <select class="form-select" aria-label="Default select example" formControlName="author">
-                    <option [ngValue]="author.node.id" *ngFor="let author of (authors$ | async)">{{author.node.name}}</option>
+                    <option [ngValue]="author.id" *ngFor="let author of (authors$ | async)">{{author.name}}</option>
                 </select>
             </div>
         </div>

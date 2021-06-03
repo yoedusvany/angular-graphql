@@ -20,13 +20,9 @@ export class LoginComponent implements OnInit {
   }
 
   login(){
-    console.log(this.username);
-    console.log(this.password);
-    
     if(this.username && this.password){
       this.securityService.login(this.username, this.password)
       .subscribe(data => {
-        console.log(data);        
         localStorage.setItem('token',data.token);
         this.router.navigate(['authors']);
       });

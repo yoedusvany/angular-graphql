@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { GET_BOOKS } from '../graphql/queries';
 
@@ -22,11 +22,14 @@ const CREATE = gql`
 @Injectable({
   providedIn: 'root'
 })
-export class BookService {
-  public books$: BehaviorSubject<any>;
-
+export class BookService implements OnDestroy {
+  books$: BehaviorSubject<any>;
   constructor(private apollo: Apollo ) {
     this.books$ = new BehaviorSubject([]);
+  }
+
+  ngOnDestroy(){
+    this.books$.unsubscribe();
   }
 
   getBooks(title: string, description: string, page: number=1){
@@ -40,9 +43,10 @@ export class BookService {
     });
 
     if(books){
-      this.books$.next(books.books);
+      this.books$.next(books.books)
+      return this.books$.asObservable();
     }else{
-      this.apollo.watchQuery(
+      return this.apollo.watchQuery(
         {
           query: GET_BOOKS,
           variables: {
@@ -50,31 +54,29 @@ export class BookService {
             description: description,
             page: page
           },
-          pollInterval:5000
+          //pollInterval:5000
         }
       )
       .valueChanges
       .pipe(
         map((item: any) => item?.data?.books)
-      ).subscribe(result => {
-        this.books$.next(result);
-      });
+      )
     }
   }
 
   create(data: any){
-    this.apollo.mutate(
+    return this.apollo.mutate(
       {
         mutation: CREATE,
         variables: {
           book: data,
         }
       }
-    ).subscribe(result => {
+    )/*.subscribe(result => {
       console.log(result);
       this.books$.subscribe(booksData => {
         this.books$.next([booksData,result]);
       });
-    })
+    })*/
   }
 }

@@ -8,31 +8,33 @@
   <div class="row pb-4">
     <div class="col-6">
       <label>Title:</label>
-      <input type="text" name="filterTitle" [(ngModel)]="filterTitle" (keyup)="filterTitleEvent($event)"/>
+      <input type="text" name="filterTitle" [(ngModel)]="filterTitle" (keyup)="filterTitleEvent($event)" />
     </div>
     <div class="col-6">
       <label>Desc:</label>
-      <input type="text" name="filterDesc" [(ngModel)]="filterDesc" (keyup)="filterDescEvent($event)"/>
+      <input type="text" name="filterDesc" [(ngModel)]="filterDesc" (keyup)="filterDescEvent($event)" />
     </div>
   </div>
 
   <div class="row">
-    <accordion>
-      <accordion-group [heading]="item.title" *ngFor="let item of (books$ | async).collection">
-        <div class="row">
-          <div class="col-6">ISBN: {{item.isbn}}</div>
-          <div class="col-6">DESC: {{item.description}}</div>
-        </div>
-      </accordion-group>
-    </accordion>
+    <div class="col-12">
+      <accordion>
+        <accordion-group [heading]="item.title" *ngFor="let item of (books$ | async)">
+          <div class="row">
+            <div class="col-4">ISBN: {{item.isbn}}</div>
+            <div class="col-4">DESC: {{item.description}}</div>
+            <div class="col-4">AUTOR: {{item.author.name}}</div>
+          </div>
+        </accordion-group>
+      </accordion>
+    </div>
   </div>
   <div class="row">
-    <pagination [itemsPerPage]="5" [totalItems]="totalCount" [(ngModel)]="currentPage" (pageChanged)="pageChanged($event)"></pagination>
+    <pagination [itemsPerPage]="5" [totalItems]="totalCount" [(ngModel)]="currentPage"
+      (pageChanged)="pageChanged($event)"></pagination>
   </div>
 
   <div class="d-flex justify-content-cente">
     <button type="button" class="btn btn-primary" (click)="openModalWithComponent()">Create Book</button>
   </div>
 </div>
-
-

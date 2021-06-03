@@ -9,6 +9,10 @@ export const GET_BOOKS = gql`
         title
         isbn
         description
+        author{
+          id
+          name
+        }
       }
       paginationInfo {
         itemsPerPage
