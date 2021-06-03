@@ -5,6 +5,7 @@ import { BookCreateComponent } from '../components/book-create/book-create.compo
 import { BookService } from '../services/book.service'
 import { GET_BOOKS } from '../graphql/queries'
 import { BehaviorSubject } from 'rxjs';
+import { PageEvent } from '@angular/material/paginator';
 
 
 @Component({
@@ -71,7 +72,7 @@ export class BooksComponent implements OnInit {
   }
 
   pageChanged(event){
-    this.currentPage = event.page;
+    this.currentPage = event.pageIndex+1;
     this.loadBooks();
   }
 }

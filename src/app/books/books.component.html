@@ -11,14 +11,14 @@
   </div>
   <div class="row">
     <div class="col">
-      <mat-form-field appearance="standard"  name="filterTitle" [(ngModel)]="filterTitle" (keyup)="filterTitleEvent($event)">
+      <mat-form-field appearance="standard"  name="filterTitle" ngDefaultControl [(ngModel)]="filterTitle" (keyup)="filterTitleEvent($event)">
         <mat-label>Title</mat-label>
         <input matInput placeholder="Insert title">
         <mat-hint>Something like "Jaws 4"</mat-hint>
       </mat-form-field>
     </div>
     <div class="col">
-      <mat-form-field appearance="standard"  name="filterDesc" [(ngModel)]="filterDesc" (keyup)="filterDescEvent($event)">
+      <mat-form-field appearance="standard"  name="filterDesc" ngDefaultControl [(ngModel)]="filterDesc" (keyup)="filterDescEvent($event)">
         <mat-label>Description</mat-label>
         <input matInput placeholder="Insert description">
         <mat-hint>Something like "this is the biggest shark"</mat-hint>
@@ -27,7 +27,7 @@
   </div>
   <div class="row justify-content-center">
     <div class="col-12">
-      <mat-expansion-panel *ngFor="let  item of (books$ | async).collection"
+      <mat-expansion-panel *ngFor="let  item of (books$ | async)"
                            (opened)="panelOpenState = true"
                            (closed)="panelOpenState = false">
         <mat-expansion-panel-header>
@@ -35,12 +35,15 @@
             {{item.title}}
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <mat-grid-list cols="2" rowHeight="130px">
+        <mat-grid-list cols="3" rowHeight="130px">
           <mat-grid-tile>
             ISBN: {{item.isbn}}
           </mat-grid-tile>
           <mat-grid-tile>
             DESC: {{item.description}}
+          </mat-grid-tile>
+          <mat-grid-tile>
+            AUTHOR: {{item.author.name}}
           </mat-grid-tile>
         </mat-grid-list>
       </mat-expansion-panel>
@@ -48,7 +51,9 @@
     <div class="col">
       <mat-paginator [length]="totalCount"
                      [pageSize]="5"
-                     [pageSizeOptions]="[5, 10, 25, 100]">
+                     [pageSizeOptions]="[5]"
+                     (page)="pageChanged($event)"
+      >
       </mat-paginator>
     </div>
   </div>

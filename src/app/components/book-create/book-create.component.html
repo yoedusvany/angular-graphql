@@ -9,14 +9,14 @@
 
         <div class="row">
             <div class="col-6">
-              <mat-form-field appearance="standard"  formControlName="title">
+              <mat-form-field appearance="standard"  ngDefaultControl formControlName="title">
                 <mat-label>Title</mat-label>
                 <input matInput placeholder="Insert title">
                 <mat-hint>Something like "Jaws 4"</mat-hint>
               </mat-form-field>
             </div>
             <div class="col-6">
-              <mat-form-field appearance="standard"  formControlName="isbn">
+              <mat-form-field appearance="standard"  ngDefaultControl formControlName="isbn">
                 <mat-label>ISBN</mat-label>
                 <input matInput placeholder="Insert ISBN">
                 <mat-hint>Something like "01221921"</mat-hint>
@@ -25,18 +25,18 @@
         </div>
         <div class="row">
             <div class="col-6">
-              <mat-form-field appearance="standard"  formControlName="description">
+              <mat-form-field appearance="standard" ngDefaultControl formControlName="description">
                 <mat-label>Description</mat-label>
                 <input matInput placeholder="Insert description">
                 <mat-hint>Something like "This is the biggest shark"</mat-hint>
               </mat-form-field>
             </div>
             <div class="col-6">
-              <mat-form-field appearance="standard"  formControlName="author">
+              <mat-form-field class="select" appearance="standard"  ngDefaultControl formControlName="author">
                 <mat-label>Author</mat-label>
                 <mat-select>
-                  <mat-option *ngFor="let author of authors" [value]="author.node.id">
-                    {{author.node.name}}
+                  <mat-option *ngFor="let author of authors$ | async" [value]="author.id">
+                    {{author.name}}
                   </mat-option>
                 </mat-select>
                 <mat-hint>Something like "John Wick"</mat-hint>
