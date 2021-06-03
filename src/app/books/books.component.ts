@@ -23,6 +23,7 @@ export class BooksComponent implements OnInit {
   currentPage: 1;
   previousPage: any;
   nextPage: any;
+  panelOpenState = false;
 
   constructor(
     private bookService: BookService,
@@ -54,7 +55,7 @@ export class BooksComponent implements OnInit {
         const {paginationInfo} = result;
         this.totalCount = paginationInfo.totalCount;
       }
-      
+
       this.loading = result.loading;
       this.error = result.error;
     });

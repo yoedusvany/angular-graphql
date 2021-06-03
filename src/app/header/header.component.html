@@ -1,7 +1,19 @@
-<header>GRAPHQL TESTS</header>
-<div class="container">
-    <div class="row">
-        <div class="col-6" routerLink="/books" routerLinkActive="active">Books</div>
-        <div class="col-6" routerLink="/authors" routerLinkActive="active">Authors</div>
-    </div>
-</div>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon" [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="example-spacer"></span>
+    <span>GRAPHQL TESTS</span>
+  </mat-toolbar-row>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/books">
+      <mat-icon>book</mat-icon>
+      <span>Books</span>
+    </button>
+    <button mat-menu-item routerLink="/authors">
+      <mat-icon>account_circle</mat-icon>
+      <span>Authors</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>

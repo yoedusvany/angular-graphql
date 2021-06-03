@@ -15,7 +15,7 @@ export class BookCreateComponent implements OnInit, OnDestroy {
   closeBtnName: string;
   formBook: FormGroup;
   authors$: BehaviorSubject<any>;
- 
+
   constructor(
     public bsModalRef: BsModalRef,
     private fb: FormBuilder,
